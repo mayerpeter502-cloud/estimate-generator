@@ -11,7 +11,8 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_RIGHT, TA_LEFT, TA_CENTER
 
 # Регистрируем шрифт DejaVu
-FONT_PATH = "/app/app/DejaVuSans.ttf"
+import os
+FONT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "DejaVuSans.ttf")
 
 if os.path.exists(FONT_PATH):
     pdfmetrics.registerFont(TTFont('DejaVuSans', FONT_PATH))
