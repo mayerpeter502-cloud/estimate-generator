@@ -11,10 +11,10 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_RIGHT, TA_LEFT, TA_CENTER
 
 # Регистрируем шрифт DejaVu
-FONT_PATH = r"D:\projects\estimate-generator\backend\app\DejaVuSans.ttf"
+FONT_PATH = "/app/app/DejaVuSans.ttf"
 
 if os.path.exists(FONT_PATH):
-    pdfmetrics.registerFont(TTFont('DejaVu', FONT_PATH))
+    pdfmetrics.registerFont(TTFont('DejaVuSans', FONT_PATH))
     print(f"✓ Шрифт DejaVu загружен: {FONT_PATH}")
 else:
     print(f"⚠ Шрифт не найден: {FONT_PATH}")
@@ -30,13 +30,13 @@ def generate_pdf(business, estimate):
     doc = SimpleDocTemplate(path, pagesize=A4, rightMargin=20*mm, leftMargin=20*mm, topMargin=20*mm, bottomMargin=20*mm)
     styles = getSampleStyleSheet()
     
-    styles.add(ParagraphStyle(name='DejaVuNormal', fontName='DejaVu', fontSize=11, leading=14))
-    styles.add(ParagraphStyle(name='DejaVuBold', fontName='DejaVu', fontSize=11, leading=14))
-    styles.add(ParagraphStyle(name='DejaVuLarge', fontName='DejaVu', fontSize=16, leading=20))
-    styles.add(ParagraphStyle(name='DejaVuHuge', fontName='DejaVu', fontSize=24, leading=30))
-    styles.add(ParagraphStyle(name='DejaVuSmall', fontName='DejaVu', fontSize=9, leading=12))
-    styles.add(ParagraphStyle(name='DejaVuTotal', fontName='DejaVu', fontSize=14, leading=18, textColor=colors.white))
-    styles.add(ParagraphStyle(name='DejaVuTotalRight', fontName='DejaVu', fontSize=14, leading=18, textColor=colors.white, alignment=TA_RIGHT))
+    styles.add(ParagraphStyle(name='DejaVuNormal', fontName='DejaVuSans', fontSize=11, leading=14))
+    styles.add(ParagraphStyle(name='DejaVuBold', fontName='DejaVuSans', fontSize=11, leading=14))
+    styles.add(ParagraphStyle(name='DejaVuLarge', fontName='DejaVuSans', fontSize=16, leading=20))
+    styles.add(ParagraphStyle(name='DejaVuHuge', fontName='DejaVuSans', fontSize=24, leading=30))
+    styles.add(ParagraphStyle(name='DejaVuSmall', fontName='DejaVuSans', fontSize=9, leading=12))
+    styles.add(ParagraphStyle(name='DejaVuTotal', fontName='DejaVuSans', fontSize=14, leading=18, textColor=colors.white))
+    styles.add(ParagraphStyle(name='DejaVuTotalRight', fontName='DejaVuSans', fontSize=14, leading=18, textColor=colors.white, alignment=TA_RIGHT))
     
     elements = []
     
@@ -76,7 +76,7 @@ def generate_pdf(business, estimate):
         ('RIGHTPADDING', (0, 0), (-1, -1), 15),
         ('TOPPADDING', (0, 0), (-1, -1), 10),
         ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
-        ('FONTNAME', (0, 0), (-1, -1), 'DejaVu'),
+        ('FONTNAME', (0, 0), (-1, -1), 'DejaVuSans'),
         ('FONTSIZE', (0, 0), (-1, -1), 11),
         ('LINEABOVE', (0, 0), (0, -1), 4, colors.HexColor('#2563eb')),
     ]))
@@ -116,12 +116,12 @@ def generate_pdf(business, estimate):
     table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#2563eb')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('FONTNAME', (0, 0), (-1, 0), 'DejaVu'),
+        ('FONTNAME', (0, 0), (-1, 0), 'DejaVuSans'),
         ('FONTSIZE', (0, 0), (-1, 0), 11),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
         ('TOPPADDING', (0, 0), (-1, 0), 10),
         
-        ('FONTNAME', (0, 1), (-1, -2), 'DejaVu'),
+        ('FONTNAME', (0, 1), (-1, -2), 'DejaVuSans'),
         ('FONTSIZE', (0, 1), (-1, -2), 11),
         ('BOTTOMPADDING', (0, 1), (-1, -2), 8),
         ('TOPPADDING', (0, 1), (-1, -2), 8),
@@ -134,7 +134,7 @@ def generate_pdf(business, estimate):
         
         ('BACKGROUND', (0, -1), (-1, -1), colors.HexColor('#1e40af')),
         ('TEXTCOLOR', (0, -1), (-1, -1), colors.white),
-        ('FONTNAME', (0, -1), (-1, -1), 'DejaVu'),
+        ('FONTNAME', (0, -1), (-1, -1), 'DejaVuSans'),
         ('FONTSIZE', (0, -1), (-1, -1), 14),
         ('BOTTOMPADDING', (0, -1), (-1, -1), 12),
         ('TOPPADDING', (0, -1), (-1, -1), 12),
@@ -153,7 +153,7 @@ def generate_pdf(business, estimate):
         ['___________________', '___________________']
     ], colWidths=[70*mm, 70*mm])
     sig_table.setStyle(TableStyle([
-        ('FONTNAME', (0, 0), (-1, -1), 'DejaVu'),
+        ('FONTNAME', (0, 0), (-1, -1), 'DejaVuSans'),
         ('FONTSIZE', (0, 0), (-1, -1), 10),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('VALIGN', (0, 0), (-1, -1), 'BOTTOM'),

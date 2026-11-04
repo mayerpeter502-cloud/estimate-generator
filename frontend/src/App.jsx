@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const API = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'
+const API = import.meta.env.VITE_API_URL || '/api'
 
 function App() {
   const [businessId, setBusinessId] = useState(null)
@@ -9,7 +9,7 @@ function App() {
   const [selected, setSelected] = useState([])
   const [clientName, setClientName] = useState('')
   const [clientPhone, setClientPhone] = useState('')
-  const [workObject, setWorkObject] = useState('') // ← НОВОЕ ПОЛЕ
+  const [workObject, setWorkObject] = useState('')
   const [loading, setLoading] = useState(false)
   const [estimates, setEstimates] = useState([])
   const [activeTab, setActiveTab] = useState('create')
@@ -24,9 +24,8 @@ function App() {
   }
 
   const loadEstimates = async () => {
-    if (!businessId) return
     try {
-      const res = await axios.get(`${API}/estimates?business_id=${businessId}`)
+      console.log("ЗАПРОС ИСТОРИИ..."); const res = await axios.get(`${API}/estimates`); console.log("ПОЛУЧЕНО СМЕТ:", res.data.length)
       setEstimates(res.data)
     } catch (error) {
       console.error('Ошибка загрузки истории:', error)
@@ -54,12 +53,18 @@ function App() {
         }
         const itemsRes = await axios.get(`${API}/categories/${catRes.data.id}/items`)
         setItems(itemsRes.data)
+        // Загружаем историю после инициализации
+        await loadEstimates()
       } catch (error) {
         console.error('Ошибка инициализации:', error)
       }
     }
     initDemo()
   }, [])
+
+  useEffect(() => {
+    loadEstimates()
+  }, [businessId])
 
   const toggleItem = (id) => {
     setSelected(s => s.includes(id) ? s.filter(x => x !== id) : [...s, id])
@@ -73,11 +78,11 @@ function App() {
       const res = await axios.post(`${API}/estimates`, {
         client_name: clientName,
         client_phone: clientPhone,
-        work_object: workObject, // ← ОТПРАВЛЯЕМ НОВОЕ ПОЛЕ
+        work_object: workObject,
         items: selected.map(id => ({ item_id: id, quantity: 1 }))
       })
       showToast(`Смета создана! Итого: ${res.data.total} ₽`)
-      setClientName(''); setClientPhone(''); setWorkObject(''); setSelected([]) // ← ОЧИЩАЕМ ПОЛЕ
+      setClientName(''); setClientPhone(''); setWorkObject(''); setSelected([])
       loadEstimates()
     } catch (error) {
       showToast('Ошибка при создании сметы', 'error')
@@ -165,7 +170,6 @@ function App() {
                   <input type="tel" className="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="+7 (999) 123-45-67" value={clientPhone} onChange={(e) => setClientPhone(e.target.value)} />
                 </div>
               </div>
-              {/* ← НОВОЕ ПОЛЕ: ОБЪЕКТ РАБОТ */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Объект работ</label>
                 <input 
